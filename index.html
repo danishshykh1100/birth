@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Birthday Surprise</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body, html {
+      height: 100%;
+      font-family: 'Roboto', sans-serif;
+      overflow: hidden;
+      background-color: black;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+    }
+    #startBtn, #nextBtn {
+      padding: 15px 30px;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 10px;
+      background-color: #ffffff;
+      color: #000000;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+      z-index: 10;
+    }
+    #startBtn:hover, #nextBtn:hover {
+      background-color: #ffc0cb;
+    }
+    .hidden {
+      display: none;
+    }
+    #message {
+      font-size: 1.5rem;
+      max-width: 90%;
+      margin: 20px auto;
+      color: #fff;
+    }
+    .balloon {
+      width: 40px;
+      height: 60px;
+      background-color: pink;
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      position: absolute;
+      bottom: -100px;
+      animation: float 6s ease-in forwards;
+      z-index: 2;
+    }
+    @keyframes float {
+      0% {transform: translateY(0); opacity: 1;}
+      100% {transform: translateY(-110vh); opacity: 0;}
+    }
+    audio {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <audio id="music" src="music.mp3" loop></audio>
+
+  <button id="startBtn">✨ Tap to unlock the magic ✨</button>
+
+  <div id="message" class="hidden animate__animated animate__fadeInUp">
+    <h1 class="animate__animated animate__heartBeat animate__delay-2s">🎉 Happy Birthday! 🎉</h1>
+    <p class="animate__animated animate__fadeIn animate__delay-3s">
+      Wishing you a day full of light, love, and unforgettable moments.<br>
+      You mean the world and beyond 💖
+    </p>
+    <button id="nextBtn" class="animate__animated animate__fadeIn animate__delay-4s">Read a little note 💌</button>
+  </div>
+
+  <script>
+    const startBtn = document.getElementById('startBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const message = document.getElementById('message');
+    const music = document.getElementById('music');
+
+    function createBalloon() {
+      const balloon = document.createElement('div');
+      balloon.className = 'balloon';
+      balloon.style.left = Math.random() * 100 + 'vw';
+      balloon.style.backgroundColor = `hsl(${Math.random() * 360}, 70%, 80%)`;
+      balloon.style.animationDuration = (3 + Math.random() * 2) + 's';
+      document.body.appendChild(balloon);
+      setTimeout(() => balloon.remove(), 7000);
+    }
+
+    startBtn.addEventListener('click', () => {
+      document.body.style.backgroundColor = '#1a1a1a';
+      startBtn.classList.add('hidden');
+      music.play();
+
+      // Launch balloons first
+      for (let i = 0; i < 30; i++) {
+        setTimeout(createBalloon, i * 150);
+      }
+
+      // Show message after balloons finish
+      setTimeout(() => {
+        message.classList.remove('hidden');
+      }, 5000);
+    });
+
+    nextBtn.addEventListener('click', () => {
+      message.innerHTML = `
+        <h2 class="animate__animated animate__fadeInDown">💫 Hope you loved the surprise 💫</h2>
+        <p class="animate__animated animate__fadeInUp animate__delay-1s">
+          Here's to many more memories, laughter, and joy.<br>
+          Stay amazing and always keep shining. 🌟
+        </p>`;
+    });
+  </script>
+</body>
+</html>
